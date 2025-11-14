@@ -47,7 +47,7 @@ able to help you with any questions you might have.
 
 Contributions of all kinds are welcome, not only in the form of code but also with regards to the
 [official documentation](https://docs.octoprint.org/), debugging help
-in the [bug tracker](https://github.com/OctoPrint/OctoPrint/issues), support of other users on
+in the [bug tracker](https://github.com/ouchinou/OctoPrint/issues), support of other users on
 [the community forum at community.octoprint.org](https://community.octoprint.org) or
 [the official discord at discord.octoprint.org](https://discord.octoprint.org)
 and also [financially](https://octoprint.org/support-octoprint/?utm_source=github&utm_medium=readme).
@@ -57,7 +57,7 @@ in any way to make it better instead of just complaining about it -- this is an 
 after all :)
 
 For information about how to go about submitting bug reports or pull requests, please see the project's
-[Contribution Guidelines](https://github.com/OctoPrint/OctoPrint/blob/master/CONTRIBUTING.md).
+[Contribution Guidelines](https://github.com/ouchinou/OctoPrint/blob/master/CONTRIBUTING.md).
 
 ## Installation
 

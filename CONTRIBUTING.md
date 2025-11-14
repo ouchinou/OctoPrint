@@ -82,7 +82,7 @@ into one ticket: One ticket per bug, request, brainstorming thread please.
 > Please also take note of the section ["AI use in Bug Reports and other issues"](#ai-use-in-bug-reports-and-other-issues) below.
 
 If you encounter an issue with OctoPrint, you are welcome to
-[submit a bug report](https://github.com/OctoPrint/OctoPrint/issues/new?template=01_bug_report.yml).
+[submit a bug report](https://github.com/ouchinou/OctoPrint/issues/new?template=01_bug_report.yml).
 
 Before you do that for the first time though please take a moment to read the
 following section *completely* and also follow the instructions in the
@@ -157,7 +157,7 @@ there.
 First of all make sure your use **a descriptive title**. "It doesn't work"
 and similar unspecific complaints are NOT descriptive titles.
 
-**Always use the [bug reporting form](https://github.com/OctoPrint/OctoPrint/issues/new?template=01_bug_report.yml)** for new bug reports.
+**Always use the [bug reporting form](https://github.com/ouchinou/OctoPrint/issues/new?template=01_bug_report.yml)** for new bug reports.
 
 When adding a "me too" to an existing bug report, *always* include a system info bundle as well, and provide
 your reproduction steps.
@@ -235,7 +235,7 @@ and branching strategy.
    pytest
    ```
 
-   in the OctoPrint checkout folder. An [automatic build workflow](https://github.com/OctoPrint/OctoPrint/actions?query=workflow%3ABuild)
+   in the OctoPrint checkout folder. An [automatic build workflow](https://github.com/ouchinou/OctoPrint/actions?query=workflow%3ABuild)
    is also setup so that if the tests should fail, your PR will be marked
    accordingly.
 9. Run the **pre-commit check suite** against your changes. You can run that (after
@@ -249,7 +249,7 @@ and branching strategy.
    in the OctoPrint checkout folder. If you install the pre-commit hooks via
    `pre-commit install` (which you really should!) this will even be taken care of for you prior to committing.
 
-   An [automatic build workflow](https://github.com/OctoPrint/OctoPrint/actions?query=workflow%3ABuild)
+   An [automatic build workflow](https://github.com/ouchinou/OctoPrint/actions?query=workflow%3ABuild)
    is in place that will run these checks - if they fail your PR will be marked accordingly.
 10. **Test your changes thoroughly**. That also means testing with usage
     scenarios you don't normally use. If you only test with your printer, test with the

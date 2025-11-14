@@ -23,7 +23,7 @@ class InfoWarnNeverEnum(str, Enum):
 @with_attrs_docs
 class SerialTimeoutConfig(BaseModel):
     detectionFirst: float = 10.0
-    detectionConsecutive: float = 2.0
+    detectionConsecutive: float = 0.5  # MakerGear: Détection plus rapide (was 2.0)
 
     connection: float = 10.0
     """Timeout for waiting to establish a connection with the selected port, in seconds"""
@@ -40,7 +40,7 @@ class SerialTimeoutConfig(BaseModel):
     temperatureTargetSet: float = 2.0
     """Timeout after which to query temperature when a target is set"""
 
-    temperatureAutoreport: float = 2.0
+    temperatureAutoreport: float = 0.0  # MakerGear: Désactivé (firmware incompatible, was 2.0)
 
     sdStatus: float = 1.0
     """Timeout after which to query the SD status while SD printing"""
@@ -66,7 +66,7 @@ class SerialMaxTimeouts(BaseModel):
 
 @with_attrs_docs
 class SerialCapabilities(BaseModel):
-    autoreport_temp: bool = True
+    autoreport_temp: bool = False  # MakerGear: Désactivé (firmware incompatible, was True)
     """Whether to enable temperature autoreport in the firmware if its support is detected"""
 
     autoreport_sdstatus: bool = True

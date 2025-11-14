@@ -402,8 +402,8 @@ if __name__ == "__main__":
         keywords="3dprinting 3dprinter 3d-printing 3d-printer octoprint",
         project_urls={
             "Community Forum": "https://community.octoprint.org",
-            "Bug Reports": "https://github.com/OctoPrint/OctoPrint/issues",
-            "Source": "https://github.com/OctoPrint/OctoPrint",
+            "Bug Reports": "https://github.com/ouchinou/OctoPrint/issues",
+            "Source": "https://github.com/ouchinou/OctoPrint",
             "Funding": "https://support.octoprint.org",
         },
         packages=setuptools.find_packages(where="src"),
