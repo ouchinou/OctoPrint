@@ -662,10 +662,10 @@ class SoftwareUpdatePlugin(
             "checks": {
                 "octoprint": {
                     "type": "github_release",
-                    "user": "foosel",
+                    "user": "ouchinou",
                     "repo": "OctoPrint",
                     "method": "pip",
-                    "pip": "https://github.com/OctoPrint/OctoPrint/archive/{target_version}.zip",
+                    "pip": "https://github.com/ouchinou/OctoPrint/archive/{target_version}.zip",
                     "update_script": default_update_script,
                     "restart": "octoprint",
                     "stable_branch": {
