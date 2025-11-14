@@ -34,7 +34,7 @@ class SerialTimeoutConfig(BaseModel):
     detectionFirst: float = 10.0
     """Timeout during initial detection attempt, in seconds."""
 
-    detectionConsecutive: float = 2.0
+    detectionConsecutive: float = 0.5  # MakerGear: Détection plus rapide (was 2.0)
     """Timeout on consecutive detection attempts, in seconds."""
 
     connection: float = 10.0
@@ -52,7 +52,7 @@ class SerialTimeoutConfig(BaseModel):
     temperatureTargetSet: float = 2.0
     """Timeout after which to query temperature when a target is set, in seconds."""
 
-    temperatureAutoreport: float = 2.0
+    temperatureAutoreport: float = 0.0  # MakerGear: Désactivé (firmware incompatible, was 2.0)
     """Autoreporting interval to request for the temperature report, in seconds."""
 
     sdStatus: float = 1.0

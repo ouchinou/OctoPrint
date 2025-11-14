@@ -117,14 +117,15 @@ class AnnouncementPlugin(
                     "url": "https://octoprint.org/feeds/octopi.xml",
                 },
             },
-            "enabled_channels": [],
-            "forced_channels": ["_important"],
+            "enabled_channels": [],  # MakerGear: Aucun channel activé par défaut
+            "forced_channels": [],  # MakerGear: Aucun channel forcé
             "channel_order": ["_important", "_releases", "_blog", "_plugins", "_octopi"],
             "ttl": 6 * 60,
             "display_limit": 3,
             "summary_limit": 300,
         }
-        settings["enabled_channels"] = list(settings["channels"].keys())
+        # MakerGear: Ne pas activer automatiquement les channels
+        # settings["enabled_channels"] = list(settings["channels"].keys())
         return settings
 
     def get_settings_version(self):
