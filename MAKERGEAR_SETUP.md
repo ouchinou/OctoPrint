@@ -6,7 +6,7 @@
 - **Base**: OctoPrint 1.11.4 (main branch)
 - **Branche**: `makergear/stable`
 - **Remote origin**: `git@github.com:ouchinou/OctoPrint.git`
-- **Remote upstream**: `https://github.com/OctoPrint/OctoPrint.git`
+- **Remote upstream**: `https://github.com/ouchinou/OctoPrint.git`
 
 ## Prochaines Étapes
 
