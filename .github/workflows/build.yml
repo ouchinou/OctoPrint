@@ -22,39 +22,18 @@ jobs:
         with:
           fetch-depth: 0
       - name: 🏗 Set up Python ${{ env.DEFAULT_PYTHON }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ env.DEFAULT_PYTHON }}
-      - name: 🏗 Install build dependencies
+      - name: 🏗 Set up PR environment
+        if: github.event_name == 'pull_request'
         run: |
-          python -m pip install build --user
-      - name: 🔨 Build a binary wheel & an sdist tarball
-        run: |
-          python -m build .
-      - name: 🔨 Build a source tarball
-        run: |
-          # find the wheel
-          wheel=$(ls dist/*-py3-none-any.whl)
-
-          # strip the suffix to get the prefix
-          prefix=$(basename ${wheel%-py3-none-any.whl})
-
-          # create the source tarball
-          git archive --prefix $prefix/ HEAD --output dist/$prefix.source.tar.gz
-
-          # list the files
-          ls dist
-      - name: 🔨 Create sha512sums of dist files
-        run: |
-          cd dist
-          sha512sum *.whl *.tar.gz > sha512sums.txt
-
-          cat sha512sums.txt
-      - name: ⬆ Upload build result
-        uses: actions/upload-artifact@v4
+          # use base ref of PR as branch name for versioning
+          echo "GIT_VERSION_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+      - name: 🔨 Build distribution
+        uses: OctoPrint/actions/build-dist@main
         with:
-          name: dist
-          path: dist
+          artifact: dist
 
   pre-commit:
     name: 🧹 Pre-commit
@@ -62,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: 🏗 Set up Python ${{ env.DEFAULT_PYTHON }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ env.DEFAULT_PYTHON }}
       - name: 🚀 Run pre-commit
@@ -73,13 +52,14 @@ jobs:
   test-unit:
     name: 🧪 Unit tests
     strategy:
+      fail-fast: false
       matrix:
-        python: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
-    runs-on: ubuntu-22.04 # change back to ubuntu-latest once we drop Python 3.7
+        python: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - name: 🏗 Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
       - name: 🧰 Determine cache key
@@ -97,7 +77,32 @@ jobs:
           pip install -e .[develop]
       - name: 🚀 Run test suite
         run: |
-          pytest
+          pytest | tee report.txt
+          pytest_exit=${PIPESTATUS[0]}
+
+          # generate summary
+          python=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
+          today=$(date +'%Y-%m-%d')
+          now=$(date +'%H:%M')
+          summary=$(tail -n1 report.txt | sed 's/^=*\s//g' | sed 's/\s=*$//g')
+
+          cat << EOF >> $GITHUB_STEP_SUMMARY
+          ### Test Report
+
+          *generated on $today at $now under Python $python*
+
+          <details>
+          <summary>$summary</summary>
+
+          \`\`\`
+          $(cat report.txt)
+          \`\`\`
+
+          </details>
+          EOF
+
+          # make sure we fail if pytest fails!
+          exit $pytest_exit
 
   test-js-unit:
     name: 🧪 JavaScript unit tests
@@ -118,18 +123,19 @@ jobs:
     needs: build
     if: github.event_name != 'push' || github.ref != 'refs/heads/main'
     strategy:
+      fail-fast: false
       matrix:
-        python: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        python: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         installable: ["wheel", "sdist"]
-    runs-on: ubuntu-22.04 # change back to ubuntu-latest once we drop Python 3.7
+    runs-on: ubuntu-latest
     steps:
       - name: ⬇ Download build result
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
       - name: 🏗 Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
       - name: 🧰 Determine installable & cache key for wheel
@@ -163,13 +169,14 @@ jobs:
   test-e2e:
     name: 🧪 E2E tests
     needs: build
-    runs-on: ubuntu-22.04 # change back to ubuntu-latest once we drop Python 3.7
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python: ["3.7", "3.12", "3.13"]
+        python: ["3.9", "3.13"]
     steps:
       - name: ⬇ Download build result
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
@@ -211,7 +218,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇ Download build result
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
@@ -244,7 +251,7 @@ jobs:
       id-token: write
     steps:
       - name: ⬇ Download build result
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
@@ -270,7 +277,7 @@ jobs:
       id-token: write
     steps:
       - name: ⬇ Download build result
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
@@ -292,7 +299,7 @@ jobs:
           OCTOPRINT_VERSION=$(echo $GITHUB_REF | cut -d/ -f3)
           echo "OCTOPRINT_VERSION=$OCTOPRINT_VERSION" >> $GITHUB_ENV
       - name: 🚀 Repository Dispatch
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.REPODISPATCH_TOKEN }}
           repository: OctoPrint/OctoPi-UpToDate

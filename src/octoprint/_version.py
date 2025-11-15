@@ -53,8 +53,8 @@ BRANCH_VERSIONS = """
 
 # bugfix is the branch for preparation of the 1.11.x bugfix releases
 # so are any bug/... branches
-bugfix 1.11.4 f7a5eee1b1f8438c5d62ce51aa0b0e1565b538c9
-bug/.* 1.11.4 f7a5eee1b1f8438c5d62ce51aa0b0e1565b538c9
+bugfix 1.11.5 a830419a3788d9847b8da81f3884e0923ec9db64
+bug/.* 1.11.5 a830419a3788d9847b8da81f3884e0923ec9db64
 
 # next is currently the branch for preparation of 1.11.0rc8
 # so is regression/...
@@ -174,19 +174,21 @@ def _git(*args, **kwargs):
 
 
 def _get_long():
-    return _git("rev-parse", "HEAD")
+    return os.environ.get("GIT_VERSION_LONG", _git("rev-parse", "HEAD"))
 
 
 def _get_short():
-    return _git("rev-parse", "--short", "HEAD")
+    return os.environ.get("GIT_VERSION_SHORT", _git("rev-parse", "--short", "HEAD"))
 
 
 def _get_tag():
-    return _git("describe", "--tags", "--abbrev=0", "--always")
+    return os.environ.get(
+        "GIT_VERSION_TAG", _git("describe", "--tags", "--abbrev=0", "--always")
+    )
 
 
 def _get_branch():
-    return _git("rev-parse", "--abbrev-ref", "HEAD")
+    return os.environ.get("GIT_VERSION_BRANCH", _git("rev-parse", "--abbrev-ref", "HEAD"))
 
 
 def _get_dirty():
