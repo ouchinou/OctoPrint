@@ -669,15 +669,15 @@ class SoftwareUpdatePlugin(
                     "update_script": default_update_script,
                     "restart": "octoprint",
                     "stable_branch": {
-                        "branch": "stable",
-                        "commitish": ["main"],
-                        "name": "Stable",
+                        "branch": "makergear/stable",
+                        "commitish": ["makergear/stable"],
+                        "name": "MakerGear Stable",
                     },
                     "prerelease_branches": [
                         {
-                            "branch": "prerelease",
-                            "commitish": ["next"],
-                            "name": "Release Candidates",
+                            "branch": "makergear/dev",
+                            "commitish": ["makergear/dev"],
+                            "name": "MakerGear Development",
                         }
                     ],
                 },
