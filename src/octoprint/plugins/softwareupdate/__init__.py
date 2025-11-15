@@ -661,25 +661,14 @@ class SoftwareUpdatePlugin(
         return {
             "checks": {
                 "octoprint": {
-                    "type": "github_release",
+                    "type": "github_commit",
                     "user": "ouchinou",
                     "repo": "OctoPrint",
+                    "branch": "makergear/stable",
                     "method": "pip",
                     "pip": "https://github.com/ouchinou/OctoPrint/archive/{target_version}.zip",
                     "update_script": default_update_script,
                     "restart": "octoprint",
-                    "stable_branch": {
-                        "branch": "makergear/stable",
-                        "commitish": ["makergear/stable"],
-                        "name": "MakerGear Stable",
-                    },
-                    "prerelease_branches": [
-                        {
-                            "branch": "makergear/dev",
-                            "commitish": ["makergear/dev"],
-                            "name": "MakerGear Development",
-                        }
-                    ],
                 },
             },
             "pip_command": None,
